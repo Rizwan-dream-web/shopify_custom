@@ -1,0 +1,101 @@
+{% assign collection = block.settings.collection %}
+
+{% capture children %}
+  <div class="custom-collection-slide">
+    {% if collection %}
+      <a href="{{ collection.url }}" class="custom-collection-slide__link">
+        <div class="custom-collection-slide__image">
+          {% render 'resource-image',
+            content_type: 'collections',
+            image_source: blank,
+            block_settings: block.settings,
+            section_settings: section.settings,
+            block_attributes: block.shopify_attributes
+          %}
+        </div>
+        <h3 class="custom-collection-slide__title">{{ collection.title }}</h3>
+      </a>
+    {% else %}
+      <div class="custom-collection-slide__placeholder">
+        <div class="custom-collection-slide__image-placeholder"></div>
+        <h3 class="custom-collection-slide__title-placeholder">Collection Title</h3>
+      </div>
+    {% endif %}
+  </div>
+{% endcapture %}
+
+{% render 'slideshow-slide',
+  index: forloop.index0,
+  class: '',
+  children: children,
+  attributes: block.shopify_attributes
+%}
+
+{% stylesheet %}
+  .custom-collection-slide {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .custom-collection-slide__link {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .custom-collection-slide__image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+
+  .custom-collection-slide__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .custom-collection-slide__title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .custom-collection-slide__placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .custom-collection-slide__image-placeholder {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    margin-bottom: 16px;
+  }
+
+  .custom-collection-slide__title-placeholder {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #999;
+    margin: 0;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Custom Collection Slide",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    }
+  ]
+}
+{% endschema %}
